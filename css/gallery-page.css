@@ -1,0 +1,420 @@
+/* ====================================================================
+   3D ORBITAL CONSTELLATION GALLERY STYLES
+   Theme: Soft Blush & Rose Aesthetic (Matching Song Player Page)
+   ==================================================================== */
+
+body.gallery-standalone-body {
+  width: 100%;
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 35%, #FFEFF3 0%, #FCE8EE 100%);
+  color: #A94D72;
+  font-family: var(--font-sans, 'Plus Jakarta Sans', system-ui, sans-serif);
+  overflow-x: hidden;
+  overflow-y: auto !important;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+/* Ensure circular back button matches .song-back-btn fixed/accessible upper left */
+.gallery-standalone-body .song-back-btn {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  z-index: 200;
+  text-decoration: none;
+}
+
+/* Header Section */
+.gallery-page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem 1.5rem 0.25rem 1.5rem;
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.gallery-page-header .song-pill-badge {
+  margin-bottom: 0.6rem;
+}
+
+.gallery-page-header .song-main-headline {
+  margin-bottom: 0.3rem;
+}
+
+.gallery-page-header .song-subtext {
+  margin-bottom: 0.5rem;
+}
+
+/* Main Interactive Orbital Stage Area */
+.orbital-gallery-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.gallery-stage-container {
+  position: relative;
+  width: 100%;
+  height: clamp(440px, 58vh, 540px);
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.gallery-stage-container:active,
+.gallery-stage-container.is-dragging {
+  cursor: grabbing;
+}
+
+/* 3D Orbit Container for 14 Floating Thumbnails */
+.spherical-orbit-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+/* Individual Orbital Mini Card Thumbnail */
+.spherical-thumb-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(64px, 9.5vw, 84px);
+  aspect-ratio: 3 / 4;
+  margin-top: -52px;
+  margin-left: -38px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 22px rgba(190, 90, 130, 0.18), 0 0 16px rgba(244, 114, 182, 0.15);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, opacity;
+}
+
+.spherical-thumb-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+}
+
+.spherical-thumb-item:hover {
+  border-color: #E968A0;
+  box-shadow: 0 12px 28px rgba(233, 104, 160, 0.4), 0 0 20px rgba(244, 114, 182, 0.35);
+  transform: scale(1.18) !important;
+}
+
+/* Main Centered 3D Interactive Flip Card Container */
+.main-card-viewport {
+  position: relative;
+  width: clamp(250px, 36vh, 320px);
+  aspect-ratio: 3 / 4;
+  perspective: 1200px;
+  z-index: 120;
+  margin: 0 auto;
+}
+
+.photo-flip-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  transition: transform 0.75s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+.photo-flip-card.flipped {
+  transform: rotateY(180deg);
+}
+
+/* Front & Back Faces of Main Photo Card */
+.photo-card-front, .photo-card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 24px;
+  box-shadow: 0 16px 42px rgba(190, 90, 130, 0.22), 0 0 25px rgba(244, 114, 182, 0.25);
+  overflow: hidden;
+  border: 3px solid #ffffff;
+  box-sizing: border-box;
+}
+
+/* Decorative Tape at Top of Main Card */
+.card-top-tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px dashed rgba(233, 104, 160, 0.5);
+  border-radius: 4px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Card Front Layout */
+.photo-card-front {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.photo-img-wrap {
+  width: 100%;
+  height: 78%;
+  overflow: hidden;
+  position: relative;
+  background: #fce7f3;
+}
+
+.photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.photo-front-footer {
+  height: 22%;
+  background: linear-gradient(135deg, #fff0f5 0%, #fce7f3 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.75rem;
+  box-sizing: border-box;
+}
+
+.photo-caption-text {
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  font-size: clamp(1.2rem, 2.4vh, 1.55rem);
+  color: #B94F78;
+  text-align: center;
+  line-height: 1.15;
+}
+
+/* Cute Romantic LDR Note Card Back */
+.photo-card-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, #ffffff 0%, #fff0f5 50%, #fce7f3 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem 1.2rem;
+  text-align: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.photo-back-decor-top {
+  font-size: 0.82rem;
+  color: #E968A0;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.photo-back-heart {
+  font-size: 2.2rem;
+  color: #EC4899;
+  margin-bottom: 0.4rem;
+  animation: pulse-pink 2s infinite;
+}
+
+.photo-back-message {
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  font-size: clamp(1.3rem, 2.5vh, 1.7rem);
+  line-height: 1.35;
+  color: #831843;
+  text-shadow: 0 1px 4px rgba(244, 114, 182, 0.2);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.photo-back-decor-bottom {
+  font-size: 0.82rem;
+  color: #E968A0;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.15em;
+  opacity: 0.9;
+}
+
+.photo-back-hint {
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  font-size: 1rem;
+  color: #B94F78;
+  opacity: 0.85;
+}
+
+/* Navigation Controls Row & Slide Counter Bar (← 01 / 15 →) */
+.gallery-counter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  z-index: 150;
+  position: relative;
+}
+
+.photo-counter {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.05rem;
+  letter-spacing: 0.15em;
+  color: #B94F78;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(230, 110, 160, 0.35);
+  border-radius: 30px;
+  padding: 0.45rem 1.35rem;
+  box-shadow: 0 4px 15px rgba(233, 104, 160, 0.12);
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Circular Arrow Buttons beside 01 / 15 */
+.nav-arrow-btn {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(236, 72, 153, 0.4);
+  color: #B94F78;
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(233, 104, 160, 0.15);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+  user-select: none;
+  z-index: 150;
+  padding: 0;
+  line-height: 1;
+}
+
+.nav-arrow-btn:hover {
+  transform: scale(1.08);
+  background: rgba(255, 255, 255, 0.9);
+  color: #EC4899;
+  border-color: rgba(236, 72, 153, 0.75);
+  box-shadow: 0 6px 20px rgba(236, 72, 153, 0.3), 0 0 12px rgba(244, 114, 182, 0.25);
+}
+
+.nav-arrow-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.2);
+}
+
+/* Bottom Up Next Section */
+.gallery-up-next-block {
+  margin-top: 1rem;
+  margin-bottom: 3.5rem;
+  z-index: 10;
+}
+
+/* Keyframe Animations */
+@keyframes pulse-pink {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .gallery-page-header {
+    padding: 1.5rem 1rem 0.25rem 1rem;
+  }
+  .gallery-stage-container {
+    height: clamp(390px, 52vh, 470px);
+  }
+  .main-card-viewport {
+    width: clamp(210px, 32vh, 270px);
+  }
+  .spherical-thumb-item {
+    width: 58px;
+    margin-top: -38px;
+    margin-left: -29px;
+  }
+  .gallery-standalone-body .song-back-btn {
+    top: 1.25rem;
+    left: 1.25rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+  .nav-arrow-btn {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-page-header {
+    padding: 1.25rem 1rem 0.2rem 1rem;
+  }
+  .gallery-standalone-body .song-back-btn {
+    top: 1rem;
+    left: 1rem;
+  }
+  .gallery-stage-container {
+    height: clamp(350px, 48vh, 420px);
+  }
+  .main-card-viewport {
+    width: clamp(190px, 28vh, 235px);
+  }
+  .spherical-thumb-item {
+    width: 48px;
+    margin-top: -30px;
+    margin-left: -24px;
+  }
+}

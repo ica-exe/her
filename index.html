@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title> after-hours ♡</title>
+
+  <!-- fonts: playfair display, cormorant garamond, caveat, dancing script, plus jakarta sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/glitterPage.css">
+  <link rel="stylesheet" href="css/gallery-page.css">
+  <link rel="stylesheet" href="css/poetry-wheel.css">
+  <link rel="stylesheet" href="css/love-letter.css">
+  <link rel="stylesheet" href="css/just-between-us.css">
+
+  <!-- Gallery View Transition Styles -->
+  <style>
+    /* ── Main / Gallery view transition system ── */
+    #main-content {
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    #main-content.view-hidden {
+      opacity: 0;
+      transform: translateY(-30px);
+      pointer-events: none;
+    }
+    #main-content.view-gone {
+      display: none;
+    }
+
+    #gallery-view {
+      display: none;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+    }
+    #gallery-view.view-entering {
+      display: block;
+    }
+    #gallery-view.view-visible {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* gallery standalone body styles for embedded mode */
+    #gallery-view .gallery-page-header {
+      padding-top: 1.5rem;
+    }
+    #gallery-view .song-back-btn.gallery-back-btn {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      z-index: 200;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- floating star & blush heart particles canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- background overlay -->
+  <div id="bg-overlay-container" class="bg-overlay"></div>
+  <div class="bg-color-mask"></div>
+
+  <!-- app container  -->
+  <div id="main-content">
+
+    <!-- INITIAL SCREEN: MINIMAL DARK ENTER SCREEN -->
+    <section id="section-intro" class="page-section active">
+      <div class="enter-screen-wrapper">
+        <button id="enter-btn" class="enter-btn">enter</button>
+      </div>
+    </section>
+
+    <!-- SCREEN 1.5: 3D MAGICAL PINK GALAXY EXPERIENCE -->
+    <section id="section-celebration" class="page-section">
+      <canvas id="galaxy-canvas"></canvas>
+
+      <!-- Cute Pink Language Information Card Modal Overlay -->
+      <div id="language-card-modal" class="lang-modal-backdrop">
+        <div id="lang-card-box" class="lang-card-box">
+          <button id="lang-card-close" class="lang-card-close-btn" title="Close">✕</button>
+          
+          <div class="lang-card-header-badge">♡ LITTLE LOVE NOTE ♡</div>
+          <div class="lang-card-heart-icon">💗</div>
+          <h2 id="lang-card-name" class="lang-card-name">Spanish</h2>
+          <div id="lang-card-translation" class="lang-card-translation">"Te amo"</div>
+          <div id="lang-card-pronunciation" class="lang-card-pronunciation">/teh AH-moh/</div>
+          
+          <div class="lang-card-divider">
+            <span class="divider-sparkle">✨</span>
+            <span class="divider-text">a little history ♡</span>
+            <span class="divider-sparkle">✨</span>
+          </div>
+
+          <p id="lang-card-description" class="lang-card-description">
+            A classic Spanish expression of romantic love, commonly used between partners.
+          </p>
+
+          <div class="lang-card-footer-hint">✨ click anywhere to return to the universe ♡</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 3: SONG SECTION -->
+    <section id="section-song" class="page-section song-page-container">
+      <!-- Circular Back Button (Far Upper-Left Edge) -->
+      <button class="song-back-btn btn-back-subtle" aria-label="Go Back" title="Go Back">
+        <span>←</span>
+      </button>
+
+      <!-- Top Right Signature (Far Upper-Right Edge) -->
+      <div class="song-top-signature">for you ♡</div>
+
+      <!-- Hidden HTML5 Audio Element -->
+      <audio id="audioPlayer" preload="auto"></audio>
+
+      <div class="song-content-wrapper">
+        <!-- 1. Visual Status Indicator Pill (Non-Interactive) -->
+        <div id="song-badge-status" class="song-pill-badge song-status-badge">
+          ♡ PRESS PLAY
+        </div>
+
+        <!-- 2. Main Headline -->
+        <h1 class="song-main-headline">
+          before proceeding,<br>play a little song first
+        </h1>
+
+        <!-- 3. Supporting Text -->
+        <p class="song-subtext">
+          press play, close your eyes — just for a little while ♡
+        </p>
+
+        <!-- 4. Music Player Card (Horizontal Layout) -->
+        <div id="romantic-audio-player" class="song-player-card">
+          <div class="song-player-cover-wrap">
+            <img id="player-cover-img" src="assets/images/intertwine.jpg" alt="Song Cover" class="song-player-cover-img">
+          </div>
+
+          <div class="song-player-info">
+            <div id="player-song-title" class="song-player-title">Intertwine</div>
+            <div id="player-artist-name" class="song-player-artist">Over October ♡</div>
+            
+            <div class="song-player-progress-wrap">
+              <input type="range" id="player-progress" value="0" min="0" max="100" class="song-progress-bar">
+              <div class="song-player-times">
+                <span id="player-time-current">0:00</span>
+                <span id="player-time-duration">0:00</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="song-player-actions">
+            <button id="player-favorite-btn" class="song-heart-circle-btn" aria-label="Favorite Track">
+              <span class="heart-icon">♡</span>
+            </button>
+            <button id="player-play-btn" class="song-play-circle-btn" aria-label="Play / Pause Song">
+              <span class="player-btn-icon icon-play">▶</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5. Playlist Toggle Pill Button -->
+        <div class="playlist-toggle-wrapper">
+          <button id="playlist-toggle-btn" class="playlist-toggle-pill" aria-expanded="false" aria-controls="playlist-card">
+            <span>♫ Playlist ♡</span>
+          </button>
+        </div>
+
+        <!-- 6. Expanded Playlist Card -->
+        <div id="playlist-card" class="playlist-card collapsed">
+          <div class="playlist-header">
+            <div class="playlist-header-title">My Songs ♡</div>
+            <button id="add-song-btn" class="add-song-btn" type="button">
+              <span class="add-song-plus-badge">+</span> Add Songs
+            </button>
+            <input type="file" id="audio-file-input" accept="audio/*" multiple style="display: none;">
+          </div>
+          <div id="playlist-items" class="playlist-items-list">
+            <!-- Dynamically populated playlist items -->
+          </div>
+        </div>
+
+        <!-- 7. Handwritten Message Under Player -->
+        <p id="song-caption-text" class="song-handwritten-msg">
+          Play a song while viewing ♡
+        </p>
+
+        <!-- 8. Up Next Section -->
+        <div class="song-up-next-block">
+          <span class="song-up-next-label">up next ↓</span>
+          <span class="song-up-next-teaser">— a few of my favourite yous →</span>
+          <a href="#" id="see-gallery-btn" class="song-gallery-btn" onclick="return false;">
+            see gallery →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- GALLERY VIEW (hidden by default, shown via in-page transition) -->
+  <div id="gallery-view">
+
+    <!-- Subtle Floating Decorative Elements matching Song Player Page -->
+    <div class="song-decorations">
+      <span class="song-sparkle sp-1">✦</span>
+      <span class="song-sparkle sp-2">✨</span>
+      <span class="song-sparkle sp-3">♡</span>
+      <span class="song-sparkle sp-4">✦</span>
+      <span class="song-sparkle sp-5">✨</span>
+    </div>
+
+    <!-- Circular Upper-Left Back Button -->
+    <button id="gallery-back-btn" class="song-back-btn gallery-back-btn" aria-label="Back to main page" title="Back to main page">
+      <span>←</span>
+    </button>
+
+    <!-- Header Section matching Song Player Page typography & structure -->
+    <header class="gallery-page-header">
+      <div class="song-pill-badge">♡ MEMORY GALLERY</div>
+      <h1 class="song-main-headline">every version of you is my favorite.</h1>
+      <p class="song-subtext">every picture reminds me how lucky I am ♡</p>
+    </header>
+
+    <!-- Main 3D Orbital Constellation Experience Stage -->
+    <main class="orbital-gallery-wrapper">
+      <!-- 3D Stage Container -->
+      <div class="gallery-stage-container">
+        <!-- 14 Floating Orbital Thumbnail Mini Cards Container -->
+        <div id="spherical-orbit-container" class="spherical-orbit-container"></div>
+
+        <!-- Main Center Interactive 3D Flip Card Viewport -->
+        <div class="main-card-viewport">
+          <div id="photo-flip-card" class="photo-flip-card">
+            <!-- Card Front Face -->
+            <div class="photo-card-front">
+              <div class="card-top-tape"></div>
+              <div class="photo-img-wrap">
+                <img id="gallery-photo-img" class="photo-img" src="assets/photo01.png" alt="Photo">
+              </div>
+              <div class="photo-front-footer">
+                <div id="gallery-photo-caption" class="photo-caption-text">the way you smile ♡</div>
+              </div>
+            </div>
+
+            <!-- Card Back Face (Intimate Note Card) -->
+            <div class="photo-card-back">
+              <div class="photo-back-decor-top">✦ A LITTLE NOTE ✦</div>
+              <div class="photo-back-heart">♡</div>
+              <div id="gallery-back-message" class="photo-back-message">even with all these miles between us, somehow you still feel close.</div>
+              <div class="photo-back-decor-bottom">✦ ♡ ✦</div>
+              <div class="photo-back-hint">click to turn back over ♡</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Navigation Controls Row directly beside 01 / 15 Counter (← 01 / 15 →) -->
+    <div class="gallery-counter-bar">
+      <button id="gallery-prev-btn" class="nav-arrow-btn" aria-label="Previous Photo">←</button>
+      <div id="gallery-counter" class="photo-counter">01 / 15</div>
+      <button id="gallery-next-btn" class="nav-arrow-btn" aria-label="Next Photo">→</button>
+    </div>
+
+    <!-- Up Next Bottom Section matching Song Player Page -->
+    <footer class="song-up-next-block gallery-up-next-block">
+      <span class="song-up-next-label">UP NEXT ↓</span>
+      <span class="song-up-next-teaser">next — a little wheel →</span>
+      <a href="#" id="see-wheel-btn" class="song-gallery-btn" onclick="return false;">
+        SPIN IT ♡
+      </a>
+    </footer>
+
+  </div>
+
+  <!-- POETRY WHEEL VIEW -->
+  <div id="wheel-view">
+
+    <!-- Dreamy Scene Background Elements matching Gallery Page -->
+    <div class="wheel-scene-bg">
+      <div class="wheel-crescent-moon">☽</div>
+      <!-- Floating Decorative Sparkles & Hearts -->
+      <div class="song-decorations">
+        <span class="song-sparkle sp-1">✦</span>
+        <span class="song-sparkle sp-2">✨</span>
+        <span class="song-sparkle sp-3">♡</span>
+        <span class="song-sparkle sp-4">✦</span>
+        <span class="song-sparkle sp-5">✨</span>
+      </div>
+      <!-- Cherry Blossom Branch Left -->
+      <svg class="wheel-blossom-branch-left" viewBox="0 0 200 200">
+        <path d="M10,180 Q80,120 190,40" stroke="#831843" stroke-width="4" fill="none" opacity="0.4"/>
+        <circle cx="170" cy="50" r="8" fill="#F472B6" opacity="0.8"/>
+        <circle cx="180" cy="40" r="10" fill="#FBCFE8" opacity="0.9"/>
+        <circle cx="140" cy="80" r="9" fill="#EC4899" opacity="0.8"/>
+        <circle cx="150" cy="70" r="7" fill="#FCE7F3" opacity="0.9"/>
+        <circle cx="100" cy="110" r="8" fill="#F472B6" opacity="0.8"/>
+      </svg>
+      <!-- Cherry Blossom Branch Right -->
+      <svg class="wheel-blossom-branch-right" viewBox="0 0 200 200">
+        <path d="M10,180 Q80,120 190,40" stroke="#831843" stroke-width="4" fill="none" opacity="0.4"/>
+        <circle cx="170" cy="50" r="8" fill="#F472B6" opacity="0.8"/>
+        <circle cx="180" cy="40" r="10" fill="#FBCFE8" opacity="0.9"/>
+        <circle cx="140" cy="80" r="9" fill="#EC4899" opacity="0.8"/>
+      </svg>
+      <!-- City Skyline Silhouette Gradient -->
+      <div class="wheel-skyline-silhouette"></div>
+    </div>
+
+    <!-- Circular Upper-Left Back Button -->
+    <button id="wheel-back-btn" class="song-back-btn wheel-back-btn" aria-label="Back to gallery page" title="Back to gallery page">
+      <span>←</span>
+    </button>
+
+    <!-- Farthest Upper-Right Clickable Closed Book Corner Element -->
+    <button id="wheel-corner-book-btn" class="wheel-corner-book-wrap" aria-label="Open Poetry Journal" title="Open Poetry Journal">
+      <div class="wheel-closed-book-graphic">
+        <svg width="44" height="54" viewBox="0 0 44 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Spine Shadow -->
+          <path d="M4 6 C4 3 6 2 9 2 L12 2 L12 50 L9 50 C6 50 4 49 4 46 Z" fill="#831843"/>
+          <!-- Layered White Page Edges -->
+          <rect x="10" y="5" width="30" height="43" rx="2" fill="#FFF5F8" stroke="#FBCFE8" stroke-width="1"/>
+          <line x1="12" y1="46" x2="38" y2="46" stroke="#E2E8F0" stroke-width="1"/>
+          <line x1="12" y1="44" x2="38" y2="44" stroke="#CBD5E1" stroke-width="0.75"/>
+          <!-- Front Hardcover -->
+          <rect x="6" y="2" width="33" height="45" rx="3" fill="url(#closedBookGrad)" stroke="#FFFFFF" stroke-width="1.5"/>
+          <!-- Embossed Frame -->
+          <rect x="9" y="5" width="27" height="39" rx="2" fill="none" stroke="rgba(255,255,255,0.45)" stroke-dasharray="2 2"/>
+          <!-- Heart Emblem -->
+          <path d="M22.5 19 C22.5 17.2 19.8 15.3 17.9 18 C16.1 20.7 22.5 25.5 22.5 25.5 C22.5 25.5 28.9 20.7 27.1 18 C25.2 15.3 22.5 17.2 22.5 19 Z" fill="#FFFFFF" opacity="0.95"/>
+          <!-- Hanging Bookmark Ribbon -->
+          <path d="M20.5 45 L20.5 52 L23.5 49.5 L26.5 52 L26.5 45 Z" fill="#DB2777"/>
+          <defs>
+            <linearGradient id="closedBookGrad" x1="0" y1="0" x2="33" y2="45" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#F472B6"/>
+              <stop offset="1" stop-color="#BE185D"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="wheel-corner-book-caption">
+      for your heart ♡
+      </div>
+      <span id="wheel-book-badge" class="wheel-book-badge">0 / 50</span>
+    </button>
+
+    <!-- Preserved Side Annotations matching Reference Image -->
+    <div class="wheel-side-note-left">
+      spin slowly,<br>let the words arrive
+      <span class="heart-decor">♡</span>
+    </div>
+
+    <div class="wheel-side-note-right">
+      perhaps something<br>you need is waiting
+      <span class="heart-decor">♡</span>
+    </div>
+
+    <!-- Header Section -->
+    <header class="wheel-page-header">
+      <div class="song-pill-badge">— ✦ SPIN THE WHEEL ✦ —</div>
+      <h1 class="song-main-headline">let the wheel choose for you</h1>
+      <p class="song-subtext">sometimes, the words find you ♡</p>
+    </header>
+
+    <!-- Main Stage Area -->
+    <main class="wheel-stage-wrapper">
+      <div class="wheel-outer-container">
+        <!-- Downward Top Pointer -->
+        <div id="wheel-pointer-pin" class="wheel-pointer-pin"></div>
+
+        <!-- SVG Wheel Canvas -->
+        <div id="wheel-svg-wrap" class="wheel-svg-canvas-wrap">
+          <svg id="wheel-svg-element" class="wheel-svg-element"></svg>
+        </div>
+
+        <!-- Center Heart Hub -->
+        <div class="wheel-center-hub">
+          <span>♡</span>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <div class="wheel-spin-action-wrapper">
+        <button id="wheel-spin-btn" class="wheel-spin-btn">
+          SPIN THE WHEEL ♡
+        </button>
+        <span class="wheel-sub-instruction">one spin • one little moment</span>
+
+        <!-- Up Next Section -->
+        <div class="wheel-up-next-block">
+          <span class="wheel-up-next-label">up next ↓</span>
+          <span class="wheel-up-next-teaser">next — a letter I wrote for you</span>
+          <a href="#" id="see-letter-btn" class="wheel-letter-btn" onclick="return false;">
+            read my letter →
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Right Decorative Books -->
+    <div class="wheel-bottom-decor-books">
+      <div class="wheel-stacked-book">Better Days ♡</div>
+      <div class="wheel-stacked-book">Same You ♡</div>
+    </div>
+
+  </div>
+
+  <!-- LOVE LETTER JOURNAL VIEW ("FOR ELIE ♡") -->
+  <div id="letter-view">
+
+    <!-- Scene Background Elements -->
+    <div class="letter-scene-bg">
+      <div class="letter-bg-glow"></div>
+      <div class="wheel-scene-bg">
+        <!-- Floating Decorative Sparkles & Hearts -->
+        <div class="song-decorations">
+          <span class="song-sparkle sp-1">✦</span>
+          <span class="song-sparkle sp-2">✨</span>
+          <span class="song-sparkle sp-3">♡</span>
+          <span class="song-sparkle sp-4">✦</span>
+          <span class="song-sparkle sp-5">✨</span>
+        </div>
+        <!-- Cherry Blossom Branch Left -->
+        <svg class="wheel-blossom-branch-left" viewBox="0 0 200 200">
+          <path d="M10,180 Q80,120 190,40" stroke="#831843" stroke-width="4" fill="none" opacity="0.4"/>
+          <circle cx="170" cy="50" r="8" fill="#F472B6" opacity="0.8"/>
+          <circle cx="180" cy="40" r="10" fill="#FBCFE8" opacity="0.9"/>
+          <circle cx="140" cy="80" r="9" fill="#EC4899" opacity="0.8"/>
+          <circle cx="150" cy="70" r="7" fill="#FCE7F3" opacity="0.9"/>
+          <circle cx="100" cy="110" r="8" fill="#F472B6" opacity="0.8"/>
+        </svg>
+        <!-- Cherry Blossom Branch Right -->
+        <svg class="wheel-blossom-branch-right" viewBox="0 0 200 200">
+          <path d="M10,180 Q80,120 190,40" stroke="#831843" stroke-width="4" fill="none" opacity="0.4"/>
+          <circle cx="170" cy="50" r="8" fill="#F472B6" opacity="0.8"/>
+          <circle cx="180" cy="40" r="10" fill="#FBCFE8" opacity="0.9"/>
+          <circle cx="140" cy="80" r="9" fill="#EC4899" opacity="0.8"/>
+        </svg>
+        <!-- City Skyline Silhouette Gradient -->
+        <div class="wheel-skyline-silhouette"></div>
+      </div>
+    </div>
+
+    <!-- Circular Upper-Left Back Button -->
+    <button id="letter-back-btn" class="song-back-btn letter-back-btn" aria-label="Back to main page" title="Back to main page">
+      <span>←</span>
+    </button>
+
+    <!-- Clean Top Navigation Header -->
+    <header class="letter-top-header">
+      <h1 class="letter-top-title">for elie ♡</h1>
+    </header>
+
+    <!-- Main Book Stage -->
+    <main class="letter-book-stage">
+      <div class="letter-open-book-wrapper">
+        <!-- Physical Hardcover Outer Shell Backdrop -->
+        <div class="letter-hardcover-base"></div>
+
+        <!-- Stacked Layered Paper Edge Stacks -->
+        <div class="letter-page-stack-left"></div>
+        <div class="letter-page-stack-right"></div>
+
+        <!-- 3D Open Physical Book Spread -->
+        <div id="letter-open-book" class="letter-open-book">
+          <!-- Left Page Panel -->
+          <div class="letter-page-side letter-page-left">
+            <div class="letter-page-inner">
+              <div class="letter-left-body">
+                <div class="letter-left-tag">FOR ELIE ♡</div>
+                <div class="letter-left-sub">KEEPSAKE JOURNAL</div>
+                <div class="letter-left-heart">💗</div>
+                <div class="letter-left-title">a quiet space for words</div>
+                <p class="letter-left-quote">"written slowly, meant for your heart alone."</p>
+                <div class="letter-left-motif">✦ ✨ ✦</div>
+              </div>
+              <div class="letter-page-bottom-bar">
+                <span id="letter-left-page-number-tag" class="letter-motif-text">✦ PAGE 01 ✦</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Page Panel -->
+          <div class="letter-page-side letter-page-right">
+            <div class="letter-page-inner">
+              <div class="letter-page-top-bar">
+                <span id="letter-page-number-tag" class="letter-page-number-tag">01</span>
+                <span id="letter-page-heading" class="letter-page-heading">what usually stays inside</span>
+              </div>
+              <div id="letter-body-content" class="letter-body-content">
+                <!-- Dynamically rendered -->
+              </div>
+              <div class="letter-page-bottom-bar">
+                <span id="letter-motif-text" class="letter-motif-text">✦ ♡ ✦</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Middle Spine Seam & Hanging Ribbon Bookmark -->
+          <div class="letter-spine-center">
+            <div class="letter-spine-groove"></div>
+            <div class="letter-ribbon-bookmark"></div>
+          </div>
+
+          <!-- 3D Physical Turning Leaf -->
+          <div id="letter-turning-leaf" class="letter-turning-leaf">
+            <div class="leaf-face leaf-front">
+              <div id="leaf-front-inner"></div>
+            </div>
+            <div class="leaf-face leaf-back">
+              <div id="leaf-back-inner"></div>
+            </div>
+          </div>
+
+          <!-- Dynamic Shadow Overlay -->
+          <div id="letter-leaf-shadow" class="letter-leaf-shadow"></div>
+        </div>
+      </div>
+
+      <!-- Navigation Bar Below Book -->
+      <div class="letter-nav-wrapper">
+        <button id="letter-prev-btn" class="letter-nav-arrow-btn" aria-label="Previous Page" title="Previous Page">←</button>
+        <span id="letter-page-counter" class="letter-page-counter">01 / 05</span>
+        <button id="letter-next-btn" class="letter-nav-arrow-btn" aria-label="Next Page" title="Next Page">→</button>
+      </div>
+
+      <!-- Up Next Section under Navigation Area -->
+      <div class="letter-up-next-block">
+        <span class="letter-up-next-label">UP NEXT ↓</span>
+        <span class="letter-up-next-teaser">— just between us</span>
+        <a href="#" id="see-between-us-btn" class="letter-between-us-btn" onclick="return false;">
+          just between us →
+        </a>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- "JUST BETWEEN US" DESTINATION VIEW -->
+  <div id="between-us-view">
+
+    <!-- Scene Background Elements -->
+    <div class="letter-scene-bg">
+      <div class="letter-bg-glow"></div>
+      <div class="wheel-scene-bg">
+        <div class="song-decorations">
+          <span class="song-sparkle sp-1">✦</span>
+          <span class="song-sparkle sp-2">✨</span>
+          <span class="song-sparkle sp-3">♡</span>
+          <span class="song-sparkle sp-4">✦</span>
+          <span class="song-sparkle sp-5">✨</span>
+        </div>
+        <svg class="wheel-blossom-branch-left" viewBox="0 0 200 200">
+          <path d="M10,180 Q80,120 190,40" stroke="#831843" stroke-width="4" fill="none" opacity="0.4"/>
+          <circle cx="170" cy="50" r="8" fill="#F472B6" opacity="0.8"/>
+          <circle cx="180" cy="40" r="10" fill="#FBCFE8" opacity="0.9"/>
+          <circle cx="140" cy="80" r="9" fill="#EC4899" opacity="0.8"/>
+        </svg>
+        <svg class="wheel-blossom-branch-right" viewBox="0 0 200 200">
+          <path d="M10,180 Q80,120 190,40" stroke="#831843" stroke-width="4" fill="none" opacity="0.4"/>
+          <circle cx="170" cy="50" r="8" fill="#F472B6" opacity="0.8"/>
+          <circle cx="180" cy="40" r="10" fill="#FBCFE8" opacity="0.9"/>
+        </svg>
+        <div class="wheel-skyline-silhouette"></div>
+      </div>
+    </div>
+
+    <!-- Circular Upper-Left Back Button -->
+    <button id="between-us-back-btn" class="song-back-btn between-us-back-btn" aria-label="Back to love letter page" title="Back to love letter page">
+      <span>←</span>
+    </button>
+
+    <!-- Clean Top Navigation Header -->
+    <header class="between-us-top-header">
+      <h1 class="between-us-top-title">just between us ♡</h1>
+    </header>
+
+    <!-- Main Stage Area -->
+    <main class="between-us-stage">
+      <div class="between-us-card-wrapper">
+        <div class="between-us-card-border"></div>
+        <div class="between-us-heart-icon">💗</div>
+        <h2 class="between-us-card-headline">just between us</h2>
+        <p class="between-us-card-sub">"a little space for our quietest promises & secret notes"</p>
+
+        <!-- Interactive Secret Prompts Tabs -->
+        <div id="between-us-tabs-container" class="between-us-tabs-bar">
+          <!-- Dynamically populated by JustBetweenUsController -->
+        </div>
+
+        <!-- Active Secret Note Content Box -->
+        <div id="between-us-note-box" class="between-us-note-box">
+          <div id="between-us-note-title" class="between-us-note-title">my promise to you</div>
+          <p id="between-us-note-body" class="between-us-note-body"></p>
+          <div id="between-us-note-motif" class="between-us-note-motif">✦ ♡ ✦</div>
+        </div>
+      </div>
+
+      <!-- Up Next Section under Between Us Stage -->
+      <div class="between-us-up-next-block">
+        <span class="between-us-up-next-label">UP NEXT ↓</span>
+        <span class="between-us-up-next-teaser">one last little thing</span>
+        <a href="#" id="see-final-btn" class="between-us-final-btn" onclick="return false;">
+          for you →
+        </a>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- FINAL PAGE VIEW ("A LITTLE CORNER FOR US") -->
+  <div id="final-view">
+
+    <!-- Subtle Hand-Drawn Bows in Upper Corners -->
+    <svg class="final-corner-bow left" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 18C14 10 6 16 16 22Z" fill="#F472B6" stroke="#831843" stroke-width="1.5"/>
+      <path d="M20 18C26 10 34 16 24 22Z" fill="#F472B6" stroke="#831843" stroke-width="1.5"/>
+      <circle cx="20" cy="19" r="3" fill="#EC4899" stroke="#831843" stroke-width="1.5"/>
+      <path d="M18 21Q14 30 10 34" stroke="#831843" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M22 21Q26 30 30 34" stroke="#831843" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <svg class="final-corner-bow right" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 18C14 10 6 16 16 22Z" fill="#F472B6" stroke="#831843" stroke-width="1.5"/>
+      <path d="M20 18C26 10 34 16 24 22Z" fill="#F472B6" stroke="#831843" stroke-width="1.5"/>
+      <circle cx="20" cy="19" r="3" fill="#EC4899" stroke="#831843" stroke-width="1.5"/>
+      <path d="M18 21Q14 30 10 34" stroke="#831843" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M22 21Q26 30 30 34" stroke="#831843" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Scene Background Elements -->
+    <div class="letter-scene-bg">
+      <div class="letter-bg-glow"></div>
+      <div class="wheel-scene-bg">
+        <div class="song-decorations">
+          <span class="song-sparkle sp-1">✦</span>
+          <span class="song-sparkle sp-2">✨</span>
+          <span class="song-sparkle sp-3">♡</span>
+          <span class="song-sparkle sp-4">✦</span>
+          <span class="song-sparkle sp-5">✨</span>
+        </div>
+        <svg class="wheel-blossom-branch-left" viewBox="0 0 200 200">
+          <path d="M10,180 Q80,120 190,40" stroke="#831843" stroke-width="4" fill="none" opacity="0.4"/>
+          <circle cx="170" cy="50" r="8" fill="#F472B6" opacity="0.8"/>
+          <circle cx="180" cy="40" r="10" fill="#FBCFE8" opacity="0.9"/>
+          <circle cx="140" cy="80" r="9" fill="#EC4899" opacity="0.8"/>
+        </svg>
+        <svg class="wheel-blossom-branch-right" viewBox="0 0 200 200">
+          <path d="M10,180 Q80,120 190,40" stroke="#831843" stroke-width="4" fill="none" opacity="0.4"/>
+          <circle cx="170" cy="50" r="8" fill="#F472B6" opacity="0.8"/>
+          <circle cx="180" cy="40" r="10" fill="#FBCFE8" opacity="0.9"/>
+        </svg>
+        <div class="wheel-skyline-silhouette"></div>
+      </div>
+    </div>
+
+    <!-- Circular Upper-Left Back Button -->
+    <button id="final-back-btn" class="song-back-btn final-back-btn" aria-label="Back to previous page" title="Back to previous page">
+      <span>←</span>
+    </button>
+
+    <!-- Main Floating Note Stage Area -->
+    <main class="final-stage-wrapper">
+      <!-- 1. Top Small Pill Badge -->
+      <div class="final-top-pill">
+        ♡ FOR YOU, REALLY
+      </div>
+
+      <!-- 2. Primary Heading -->
+      <h1 class="final-main-heading">here, these are for you, my love</h1>
+
+      <!-- 3. Center Kawaii Sunflower Cats Illustration & Floating Script Accents -->
+      <div class="final-illustration-container">
+        <span class="final-floating-accent accent-left">for you ♡</span>
+        <span class="final-floating-accent accent-right">still us</span>
+
+        <!-- Two Kawaii Cats with Yellow Sunflower Bouquet SVG Illustration -->
+        <svg class="final-sunflower-cats-svg" viewBox="0 0 260 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Soft Shadow Ground Pill -->
+          <ellipse cx="130" cy="128" rx="85" ry="8" fill="#F472B6" opacity="0.18"/>
+
+          <!-- LEFT CAT (Offering Sunflowers) -->
+          <g class="cat-left">
+            <!-- Body -->
+            <path d="M85 125C85 95 102 95 110 125Z" fill="#FFFDF7" stroke="#831843" stroke-width="2.2" stroke-linejoin="round"/>
+            <!-- Head -->
+            <ellipse cx="92" cy="85" rx="26" ry="22" fill="#FFFDF7" stroke="#831843" stroke-width="2.2"/>
+            <!-- Left Ear -->
+            <path d="M72 72L67 52L82 66Z" fill="#FFF5F8" stroke="#831843" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M73 70L69 56L80 66Z" fill="#FBCFE8"/>
+            <!-- Right Ear -->
+            <path d="M112 72L117 52L102 66Z" fill="#FFF5F8" stroke="#831843" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M111 70L115 56L104 66Z" fill="#FBCFE8"/>
+            <!-- Eyes -->
+            <circle cx="83" cy="84" r="2.2" fill="#831843"/>
+            <circle cx="101" cy="84" r="2.2" fill="#831843"/>
+            <!-- Mouth -->
+            <path d="M90 89Q92 92 94 89" stroke="#831843" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <!-- Blush -->
+            <ellipse cx="76" cy="89" rx="4.5" ry="2.8" fill="#F472B6" opacity="0.65"/>
+            <ellipse cx="108" cy="89" rx="4.5" ry="2.8" fill="#F472B6" opacity="0.65"/>
+          </g>
+
+          <!-- SUNFLOWER BOUQUET (Held towards Right Cat) -->
+          <g class="sunflower-bouquet">
+            <!-- Stems -->
+            <path d="M100 112Q114 102 126 94" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M100 112Q116 96 130 84" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M100 112Q120 108 132 102" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Leaves -->
+            <path d="M106 108Q114 96 122 100Z" fill="#86EFAC" stroke="#16A34A" stroke-width="1.5"/>
+            <path d="M108 114Q116 118 124 110Z" fill="#86EFAC" stroke="#16A34A" stroke-width="1.5"/>
+            <!-- Ribbon Tie -->
+            <path d="M102 110Q98 106 100 102Q104 106 102 110Z" fill="#EC4899"/>
+            <path d="M102 110Q106 106 104 102Q100 106 102 110Z" fill="#EC4899"/>
+            <circle cx="102" cy="110" r="2" fill="#BE185D"/>
+
+            <!-- SUNFLOWER 1 (Top Right) -->
+            <g transform="translate(132, 82)">
+              <circle cx="-6" cy="0" r="3.5" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="6" cy="0" r="3.5" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="0" cy="-6" r="3.5" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="0" cy="6" r="3.5" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="-4" cy="-4" r="3.5" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="4" cy="-4" r="3.5" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="-4" cy="4" r="3.5" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="4" cy="4" r="3.5" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="0" cy="0" r="4.5" fill="#78350F" stroke="#451A03" stroke-width="1"/>
+            </g>
+
+            <!-- SUNFLOWER 2 (Main Center) -->
+            <g transform="translate(126, 94)">
+              <circle cx="-7" cy="0" r="4" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="7" cy="0" r="4" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="0" cy="-7" r="4" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="0" cy="7" r="4" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="-5" cy="-5" r="4" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="5" cy="-5" r="4" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="-5" cy="5" r="4" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="5" cy="5" r="4" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="0" cy="0" r="5.2" fill="#78350F" stroke="#451A03" stroke-width="1"/>
+            </g>
+
+            <!-- SUNFLOWER 3 (Lower Right) -->
+            <g transform="translate(136, 102)">
+              <circle cx="-5" cy="0" r="3" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="5" cy="0" r="3" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="0" cy="-5" r="3" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="0" cy="5" r="3" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="-3.5" cy="-3.5" r="3" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="3.5" cy="-3.5" r="3" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="-3.5" cy="3.5" r="3" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="3.5" cy="3.5" r="3" fill="#FACC15" stroke="#EAB308" stroke-width="0.8"/>
+              <circle cx="0" cy="0" r="3.8" fill="#78350F" stroke="#451A03" stroke-width="1"/>
+            </g>
+          </g>
+
+          <!-- RIGHT CAT (Shyly Receiving Flowers) -->
+          <g class="cat-right">
+            <!-- Body -->
+            <path d="M175 125C175 95 158 95 150 125Z" fill="#FFFDF7" stroke="#831843" stroke-width="2.2" stroke-linejoin="round"/>
+            <!-- Head -->
+            <ellipse cx="168" cy="85" rx="26" ry="22" fill="#FFFDF7" stroke="#831843" stroke-width="2.2"/>
+            <!-- Left Ear -->
+            <path d="M148 72L143 52L158 66Z" fill="#FFF5F8" stroke="#831843" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M149 70L145 56L156 66Z" fill="#FBCFE8"/>
+            <!-- Right Ear -->
+            <path d="M188 72L193 52L178 66Z" fill="#FFF5F8" stroke="#831843" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M187 70L191 56L180 66Z" fill="#FBCFE8"/>
+            <!-- Shy Curved Eyes -->
+            <path d="M156 84Q159 80 162 84" stroke="#831843" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M174 84Q177 80 180 84" stroke="#831843" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <!-- Mouth -->
+            <path d="M166 89Q168 92 170 89" stroke="#831843" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <!-- Blush -->
+            <ellipse cx="152" cy="89" rx="5" ry="3.2" fill="#F472B6" opacity="0.75"/>
+            <ellipse cx="184" cy="89" rx="5" ry="3.2" fill="#F472B6" opacity="0.75"/>
+          </g>
+
+          <!-- FLOATING PULSING PINK HEART -->
+          <g class="floating-heart">
+            <path d="M130 54C130 50 125 46 120 50C115 54 130 65 130 65C130 65 145 54 140 50C135 46 130 50 130 54Z" fill="#EC4899"/>
+            <path d="M129 55C129 52 125 48 121 51C117 54 129 63 129 63C129 63 141 54 137 51C133 48 129 52 129 55Z" fill="#FFF0F5" opacity="0.4"/>
+          </g>
+          <!-- Sparkles -->
+          <text class="sparkle-star" x="112" y="44" font-family="sans-serif" font-size="10" fill="#FACC15" text-anchor="middle">✨</text>
+          <text class="sparkle-star" x="146" y="42" font-family="sans-serif" font-size="10" fill="#F472B6" text-anchor="middle">✦</text>
+        </svg>
+      </div>
+
+      <!-- 4. Exact Future Message -->
+      <p class="final-future-message">
+        “whatever the future holds, i hope there will always be a little corner of it that feels unmistakably like us”
+      </p>
+
+      <!-- 5. Closing Signature -->
+      <div class="final-closing-signature">— yours, always</div>
+    </main>
+
+  </div>
+
+  <!-- POETRY REVEAL MODAL BACKDROP & CARD -->
+  <div id="poetry-modal-backdrop" class="poetry-modal-backdrop">
+    <div class="poetry-card-box">
+      <button id="poetry-card-close" class="poetry-card-close-btn" title="Close">✕</button>
+      
+      <div id="poetry-card-number" class="poetry-card-number-badge">✦ NO. 01 ✦</div>
+      <div class="poetry-card-heart">💗</div>
+
+      <div id="poetry-modal-status-notice" class="poetry-card-status-notice">✦ UNCOLLECTED LETTER ✦</div>
+      
+      <div id="poetry-card-verse" class="poetry-card-verse">
+        "if love were a place, i think I'd recognize it by the way everything feels when i look at you."
+      </div>
+
+      <button id="poetry-modal-action-btn" class="poetry-card-footer-btn">
+        COLLECT ♡
+      </button>
+    </div>
+  </div>
+
+  <!-- ENLARGED POETRY BOOKLET JOURNAL OVERLAY -->
+  <div id="poetry-booklet-backdrop" class="poetry-booklet-backdrop">
+    <div class="poetry-booklet-journal">
+      <button id="booklet-close-btn" class="booklet-close-btn" title="Close Booklet">✕</button>
+
+      <div class="booklet-header">
+        <div class="booklet-title">
+          <span>📖</span> <span id="booklet-title-text">Elie's Collection</span>
+        </div>
+        <div class="booklet-header-right">
+          <div id="booklet-count-badge" class="booklet-count-badge">0 / 50 collected</div>
+          <button id="booklet-reset-btn" class="booklet-reset-btn" type="button" title="Reset Collection">reset</button>
+        </div>
+      </div>
+
+      <div class="booklet-body">
+        <div id="booklet-poem-num" class="booklet-poem-num">✦ NO. 01 ✦</div>
+        <div id="booklet-poem-text" class="booklet-poem-text">
+          your collection is empty right now ♡
+
+          spin the wheel to discover and collect letters.
+        </div>
+      </div>
+
+      <div class="booklet-footer">
+        <button id="booklet-prev-btn" class="booklet-nav-btn" disabled>
+          <span>←</span> Previous
+        </button>
+        <span id="booklet-page-indicator" class="booklet-page-indicator">0 / 50</span>
+        <button id="booklet-next-btn" class="booklet-nav-btn" disabled>
+          Next <span>→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESET CONFIRMATION MODAL PROMPT -->
+  <div id="poetry-reset-modal-backdrop" class="poetry-reset-modal-backdrop">
+    <div class="poetry-reset-card-box">
+      <button id="reset-modal-close" class="poetry-card-close-btn" title="Close">✕</button>
+      
+      <div class="poetry-reset-heart">💗</div>
+      <h3 class="poetry-reset-title">reset your collection?</h3>
+      <p class="poetry-reset-text">
+        this will empty all the cards you’ve collected.<br>are you sure?
+      </p>
+
+      <div class="poetry-reset-actions">
+        <button id="reset-confirm-btn" class="poetry-reset-btn-confirm" type="button">
+          yes, reset
+        </button>
+        <button id="reset-cancel-btn" class="poetry-reset-btn-cancel" type="button">
+          no, keep them
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Config & JavaScript Modules -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="config.js"></script>
+  <script src="js/love-languages.js"></script>
+  <script src="js/galaxy.js"></script>
+  <script src="js/login-intro.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/gallery-page.js"></script>
+  <script src="js/poetry-wheel.js"></script>
+  <script src="js/love-letter.js"></script>
+  <script src="js/just-between-us.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

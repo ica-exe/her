@@ -1,0 +1,525 @@
+/* ====================================================================
+   DREAMY ROMANTIC LOVE LETTER JOURNAL "FOR ELIE ♡" STYLES
+   Theme: Open Keepsake Book, Delicate Serif Typography & Editorial Aesthetic
+   ==================================================================== */
+
+#letter-view {
+  display: none;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  width: 100%;
+  background: radial-gradient(circle at 50% 35%, rgba(255, 239, 243, 0.94) 0%, rgba(252, 232, 238, 0.98) 100%);
+  color: #831843;
+  overflow-x: hidden;
+  padding-bottom: 3rem;
+  box-sizing: border-box;
+}
+
+#letter-view.view-entering {
+  display: block;
+}
+
+#letter-view.view-visible {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Back Button matching Song / Gallery / Wheel page */
+#letter-view .song-back-btn.letter-back-btn {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 200;
+  text-decoration: none;
+}
+
+/* Clean Top Navigation Header */
+.letter-top-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.8rem 1.5rem 0.5rem 1.5rem;
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.letter-top-title {
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  font-size: clamp(1.8rem, 3.8vh, 2.3rem);
+  color: #B94F78;
+  letter-spacing: 0.05em;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* ── Main Book Stage ── */
+.letter-book-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 920px;
+  margin: 0.5rem auto 1.5rem auto;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+  z-index: 10;
+  position: relative;
+  perspective: 1600px;
+}
+
+/* Open Keepsake Journal Card Container */
+.letter-open-book-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+}
+
+/* Physical Hardcover Outer Shell Backdrop */
+.letter-hardcover-base {
+  position: absolute;
+  inset: -12px -16px -16px -16px;
+  background: linear-gradient(135deg, #F9A8D4 0%, #F472B6 40%, #DB2777 85%, #9D174D 100%);
+  border-radius: 26px;
+  box-shadow: 
+    0 28px 65px rgba(131, 24, 67, 0.32),
+    0 10px 28px rgba(219, 39, 119, 0.22),
+    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+    inset 0 -3px 6px rgba(131, 24, 67, 0.35);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Stacked Layered Paper Edge Stacks */
+.letter-page-stack-left {
+  position: absolute;
+  top: 10px;
+  bottom: 14px;
+  left: 0;
+  width: 16px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #FFF0F5 0px,
+    #FFF0F5 2px,
+    #FCE7F3 2px,
+    #FCE7F3 3px,
+    #F472B6 3px,
+    #FFF0F5 4px
+  );
+  border-radius: 12px 0 0 12px;
+  box-shadow: inset -2px 0 5px rgba(131, 24, 67, 0.18);
+}
+
+.letter-page-stack-right {
+  position: absolute;
+  top: 10px;
+  bottom: 14px;
+  right: 0;
+  width: 16px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #FFF0F5 0px,
+    #FFF0F5 2px,
+    #FCE7F3 2px,
+    #FCE7F3 3px,
+    #F472B6 3px,
+    #FFF0F5 4px
+  );
+  border-radius: 0 12px 12px 0;
+  box-shadow: inset 2px 0 5px rgba(131, 24, 67, 0.18);
+}
+
+/* 3D Open Physical Book Spread */
+.letter-open-book {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: clamp(400px, 56vh, 500px);
+  display: flex;
+  background: #FFF5F8;
+  border-radius: 16px;
+  box-shadow: 
+    0 4px 22px rgba(131, 24, 67, 0.12),
+    inset 0 0 15px rgba(251, 207, 232, 0.35);
+  transform-style: preserve-3d;
+  overflow: visible;
+}
+
+/* Left & Right Page Panels */
+.letter-page-side {
+  width: 50%;
+  position: relative;
+  box-sizing: border-box;
+  padding: 2.2rem 2.4rem;
+  background: linear-gradient(135deg, #FFF9FA 0%, #FFF2F6 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.letter-page-left {
+  border-radius: 14px 2px 2px 14px;
+  border-right: 1px solid rgba(236, 72, 153, 0.12);
+  box-shadow: inset -15px 0 25px -10px rgba(131, 24, 67, 0.08);
+}
+
+.letter-page-right {
+  border-radius: 2px 14px 14px 2px;
+  border-left: 1px solid rgba(236, 72, 153, 0.12);
+  box-shadow: inset 15px 0 25px -10px rgba(131, 24, 67, 0.08);
+}
+
+/* Page Inner Layout */
+.letter-page-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+
+/* Left Page Decorative Branding & Layout */
+.letter-left-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
+  gap: 0.8rem;
+  padding: 1rem 0;
+}
+
+.letter-left-tag {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: #DB2777;
+}
+
+.letter-left-sub {
+  font-family: var(--font-script, 'Caveat', cursive);
+  font-size: 0.95rem;
+  color: #B94F78;
+}
+
+.letter-left-heart {
+  font-size: 2.2rem;
+  margin-bottom: 0.2rem;
+  filter: drop-shadow(0 3px 10px rgba(244, 114, 182, 0.35));
+}
+
+.letter-left-title {
+  font-family: var(--font-script, 'Caveat', cursive);
+  font-size: 1.55rem;
+  color: #831843;
+  font-weight: 600;
+}
+
+.letter-left-quote {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #9D174D;
+  line-height: 1.5;
+  max-width: 85%;
+  margin: 0.3rem 0;
+}
+
+.letter-left-motif {
+  font-size: 0.8rem;
+  color: #EC4899;
+  letter-spacing: 0.3em;
+}
+
+/* Middle Spine Seam & Hanging Ribbon Bookmark */
+.letter-spine-center {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 26px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+}
+
+.letter-spine-groove {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(131, 24, 67, 0.15) 0%,
+    rgba(219, 39, 119, 0.22) 30%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(219, 39, 119, 0.22) 70%,
+    rgba(131, 24, 67, 0.15) 100%
+  );
+}
+
+.letter-ribbon-bookmark {
+  position: absolute;
+  bottom: -28px;
+  width: 18px;
+  height: 46px;
+  background: linear-gradient(to bottom, #DB2777, #BE185D);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+  box-shadow: 0 5px 14px rgba(190, 24, 93, 0.45);
+  z-index: 12;
+}
+
+/* Page Header & Number */
+.letter-page-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed rgba(244, 114, 182, 0.3);
+  padding-bottom: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.letter-page-number-tag {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: #DB2777;
+}
+
+.letter-page-heading {
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  font-size: 1.35rem;
+  color: #B94F78;
+}
+
+/* Letter Body Paragraph */
+.letter-body-content {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: clamp(0.95rem, 2vh, 1.1rem);
+  line-height: 1.75;
+  color: #831843;
+  text-align: left;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.4rem 0.2rem;
+}
+
+.letter-body-content p {
+  margin-bottom: 0.85rem;
+}
+
+.letter-body-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Decorative Footer Motif */
+.letter-page-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px dashed rgba(244, 114, 182, 0.3);
+  padding-top: 0.6rem;
+  margin-top: 1rem;
+}
+
+.letter-motif-text {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.8rem;
+  color: #EC4899;
+  letter-spacing: 0.3em;
+}
+
+/* ── 3D Physical Turning Leaf Styles ── */
+.letter-turning-leaf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 30;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  display: none;
+}
+
+.letter-turning-leaf.turning-next {
+  left: 50%;
+  transform-origin: left center;
+}
+
+.letter-turning-leaf.turning-prev {
+  left: 0;
+  transform-origin: right center;
+}
+
+.leaf-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: linear-gradient(135deg, #FFF9FA 0%, #FFF2F6 100%);
+  padding: 2.2rem 2.4rem;
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(131, 24, 67, 0.2);
+}
+
+.leaf-front {
+  z-index: 2;
+  border-radius: 2px 14px 14px 2px;
+}
+
+.leaf-back {
+  z-index: 1;
+  transform: rotateY(180deg);
+  border-radius: 14px 2px 2px 14px;
+}
+
+/* Dynamic Shadow Overlay under turning leaf */
+.letter-leaf-shadow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.letter-leaf-shadow.shadow-right {
+  left: 50%;
+  background: linear-gradient(to right, rgba(131, 24, 67, 0.28) 0%, transparent 100%);
+}
+
+.letter-leaf-shadow.shadow-left {
+  left: 0;
+  background: linear-gradient(to left, rgba(131, 24, 67, 0.28) 0%, transparent 100%);
+}
+
+/* ── Interactive Page Turning Controls ── */
+.letter-nav-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  z-index: 20;
+}
+
+.letter-nav-arrow-btn {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(236, 72, 153, 0.4);
+  color: #B94F78;
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(233, 104, 160, 0.18);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+  user-select: none;
+}
+
+.letter-nav-arrow-btn:hover:not(:disabled) {
+  transform: scale(1.08);
+  background: rgba(255, 255, 255, 0.98);
+  color: #EC4899;
+  border-color: rgba(236, 72, 153, 0.75);
+  box-shadow: 0 6px 20px rgba(236, 72, 153, 0.3);
+}
+
+.letter-nav-arrow-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+  transform: none !important;
+}
+
+.letter-page-counter {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.05rem;
+  letter-spacing: 0.18em;
+  color: #B94F78;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(230, 110, 160, 0.35);
+  border-radius: 30px;
+  padding: 0.45rem 1.35rem;
+  box-shadow: 0 4px 15px rgba(233, 104, 160, 0.12);
+  user-select: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .letter-open-book-wrapper {
+    max-width: 100%;
+  }
+  .letter-page-side {
+    padding: 1.6rem 1.4rem;
+  }
+  .leaf-face {
+    padding: 1.6rem 1.4rem;
+  }
+  .letter-top-title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .letter-top-header {
+    padding-top: 3.5rem;
+  }
+  .letter-open-book {
+    min-height: 420px;
+  }
+  .letter-page-side {
+    padding: 1.2rem 1rem;
+  }
+  .leaf-face {
+    padding: 1.2rem 1rem;
+  }
+  .letter-left-quote {
+    font-size: 0.85rem;
+    max-width: 95%;
+  }
+  .letter-left-title {
+    font-size: 1.3rem;
+  }
+  .letter-page-heading {
+    font-size: 1.15rem;
+  }
+  .letter-body-content {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+}

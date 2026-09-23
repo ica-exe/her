@@ -1,0 +1,974 @@
+/* ====================================================================
+   DREAMY ROMANTIC POETRY WHEEL EXPERIENCE STYLES
+   Theme: Soft Sunset Pink Sky, Cherry Blossoms, City Skyline & Magical Wheel
+   ==================================================================== */
+
+#wheel-view {
+  display: none;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  width: 100%;
+  background: radial-gradient(circle at 50% 35%, rgba(255, 239, 243, 0.94) 0%, rgba(252, 232, 238, 0.98) 100%);
+  color: #831843;
+  overflow-x: hidden;
+  padding-bottom: 3rem;
+  box-sizing: border-box;
+}
+
+#wheel-view.view-entering {
+  display: block;
+}
+
+#wheel-view.view-visible {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Scene Background Elements (Moon, Clouds, City Skyline, Cherry Blossoms) ── */
+.wheel-scene-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Crescent Moon at Upper Left */
+.wheel-crescent-moon {
+  position: absolute;
+  top: 3.5rem;
+  left: 8%;
+  font-size: 3.2rem;
+  color: #FDE047;
+  text-shadow: 0 0 20px rgba(253, 224, 71, 0.7), 0 0 35px rgba(244, 114, 182, 0.5);
+  opacity: 0.85;
+  animation: moon-glow 4s ease-in-out infinite alternate;
+}
+
+@keyframes moon-glow {
+  0% { transform: scale(1) rotate(-10deg); opacity: 0.8; }
+  100% { transform: scale(1.06) rotate(-5deg); opacity: 0.95; }
+}
+
+/* Cherry Blossom Branches Framing Sides */
+.wheel-blossom-branch-left {
+  position: absolute;
+  top: -20px;
+  left: -40px;
+  width: 260px;
+  opacity: 0.88;
+  pointer-events: none;
+  transform: rotate(-10deg);
+  filter: drop-shadow(0 8px 15px rgba(236, 72, 153, 0.2));
+}
+
+.wheel-blossom-branch-right {
+  position: absolute;
+  bottom: 40px;
+  right: -50px;
+  width: 280px;
+  opacity: 0.85;
+  pointer-events: none;
+  transform: scaleX(-1) rotate(15deg);
+  filter: drop-shadow(0 8px 15px rgba(236, 72, 153, 0.2));
+}
+
+/* Distant Dreamy City Skyline Silhouette at Bottom */
+.wheel-skyline-silhouette {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  background: linear-gradient(to top, rgba(244, 114, 182, 0.25) 0%, rgba(244, 114, 182, 0) 100%);
+  border-bottom: 2px solid rgba(244, 114, 182, 0.3);
+  pointer-events: none;
+}
+
+/* Back Button matching Song / Gallery page */
+#wheel-view .song-back-btn.wheel-back-btn {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 200;
+  text-decoration: none;
+}
+
+/* Farthest Upper-Right Closed Book Element mirroring Back Button */
+.wheel-corner-book-wrap {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
+  background: none;
+  border: none;
+  padding: 0;
+  outline: none;
+}
+
+.wheel-corner-book-wrap:hover .wheel-closed-book-graphic {
+  transform: rotate(10deg) scale(1.08);
+  filter: drop-shadow(0 8px 18px rgba(236, 72, 153, 0.45));
+}
+
+.wheel-closed-book-graphic {
+  position: relative;
+  filter: drop-shadow(0 6px 14px rgba(190, 90, 130, 0.3));
+  transform: rotate(6deg);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+}
+
+.wheel-corner-book-caption {
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  font-size: 0.95rem;
+  color: #B94F78;
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.wheel-book-badge {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);
+  border: 1.5px solid #ffffff;
+  border-radius: 12px;
+  padding: 1px 6px;
+  box-shadow: 0 2px 8px rgba(219, 39, 119, 0.35);
+  margin-top: 2px;
+}
+
+/* Header Section */
+.wheel-page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2.2rem 1.5rem 0.5rem 1.5rem;
+  position: relative;
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.wheel-page-header .song-pill-badge {
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.18em;
+}
+
+.wheel-page-header .song-main-headline {
+  margin-bottom: 0.3rem;
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2rem, 4.5vh, 2.8rem);
+  color: #831843;
+}
+
+.wheel-page-header .song-subtext {
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  font-size: clamp(1.3rem, 2.6vh, 1.7rem);
+  color: #B94F78;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Side Annotations ── */
+.wheel-side-note-left {
+  position: absolute;
+  left: clamp(2rem, 6vw, 6rem);
+  top: 42%;
+  transform: translateY(-50%);
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  font-size: 1.35rem;
+  color: #B94F78;
+  line-height: 1.3;
+  text-align: left;
+  z-index: 10;
+  pointer-events: none;
+  max-width: 160px;
+  opacity: 0.9;
+}
+
+.wheel-side-note-left .heart-decor {
+  font-size: 1.1rem;
+  color: #EC4899;
+  display: block;
+  margin-top: 4px;
+}
+
+.wheel-side-note-right {
+  position: absolute;
+  right: clamp(2rem, 6vw, 6rem);
+  bottom: 25%;
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  font-size: 1.3rem;
+  color: #B94F78;
+  line-height: 1.3;
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+  max-width: 160px;
+  opacity: 0.9;
+}
+
+/* ── Main Stage & Spinning Wheel Container ── */
+.wheel-stage-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 950px;
+  margin: 0.5rem auto 1rem auto;
+  z-index: 10;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.wheel-outer-container {
+  position: relative;
+  width: clamp(320px, 48vh, 460px);
+  height: clamp(320px, 48vh, 460px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Top Pointer Pin Triangle */
+.wheel-pointer-pin {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-top: 26px solid #EC4899;
+  z-index: 50;
+  filter: drop-shadow(0 4px 8px rgba(236, 72, 153, 0.4));
+  transition: transform 0.1s ease;
+}
+
+.wheel-pointer-pin::after {
+  content: '♡';
+  position: absolute;
+  top: -24px;
+  left: -6px;
+  font-size: 10px;
+  color: #ffffff;
+}
+
+.wheel-pointer-pin.tick {
+  transform: translateX(-50%) rotate(-12deg);
+}
+
+/* SVG Wheel Rotation Wrapper */
+.wheel-svg-canvas-wrap {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 
+    0 16px 45px rgba(190, 90, 130, 0.25),
+    0 0 35px rgba(244, 114, 182, 0.3),
+    inset 0 0 15px rgba(255, 255, 255, 0.8);
+  border: 4px solid #ffffff;
+  box-sizing: border-box;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  transition: transform 4s cubic-bezier(0.15, 0.94, 0.3, 1);
+  will-change: transform;
+}
+
+.wheel-svg-element {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Center Heart Hub */
+.wheel-center-hub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffffff 0%, #FFF0F5 100%);
+  border: 2.5px solid #F472B6;
+  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.wheel-center-hub span {
+  font-size: 1.5rem;
+  color: #EC4899;
+  animation: pulse-pink 2s infinite;
+}
+
+/* ── Spin Button & Controls ── */
+.wheel-spin-action-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 20;
+}
+
+.wheel-spin-btn {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 0.92rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #F472B6 0%, #EC4899 50%, #DB2777 100%);
+  border: 1.5px solid #ffffff;
+  border-radius: 30px;
+  padding: 0.55rem 1.75rem;
+  box-shadow: 0 6px 18px rgba(236, 72, 153, 0.3), 0 0 12px rgba(244, 114, 182, 0.2);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.wheel-spin-btn:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 10px 24px rgba(236, 72, 153, 0.4), 0 0 16px rgba(244, 114, 182, 0.3);
+  background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);
+}
+
+.wheel-spin-btn:active:not(:disabled) {
+  transform: translateY(1px) scale(0.98);
+}
+
+.wheel-spin-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.wheel-sub-instruction {
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  font-size: 1.15rem;
+  color: #B94F78;
+  letter-spacing: 0.05em;
+}
+
+/* Up Next Section beneath 'one spin • one little moment' */
+.wheel-up-next-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.1rem;
+  text-align: center;
+  gap: 0.25rem;
+}
+
+.wheel-up-next-label {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #9F1239;
+}
+
+.wheel-up-next-teaser {
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  font-size: 1.15rem;
+  color: #B94F78;
+}
+
+.wheel-letter-btn {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+  color: #BE185D;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(244, 114, 182, 0.45);
+  border-radius: 9999px;
+  padding: 0.45rem 1.3rem;
+  box-shadow: 0 4px 14px rgba(244, 114, 182, 0.15);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 0.35rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  cursor: pointer;
+}
+
+.wheel-letter-btn:hover {
+  transform: translateY(-2px);
+  background: #FFFFFF;
+  color: #9F1239;
+  border-color: rgba(236, 72, 153, 0.6);
+  box-shadow: 0 6px 20px rgba(244, 114, 182, 0.28), 0 0 12px rgba(251, 207, 232, 0.5);
+}
+
+/* Bottom Decorative Book Scraps */
+.wheel-bottom-decor-books {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0.9;
+}
+
+.wheel-stacked-book {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(244, 114, 182, 0.4);
+  border-radius: 4px;
+  padding: 3px 12px;
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.7rem;
+  color: #831843;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Floating Poetry Letter/Word Particles */
+.wheel-floating-letter {
+  position: absolute;
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  color: #EC4899;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 5;
+  animation: float-up-letter 8s linear infinite;
+}
+
+@keyframes float-up-letter {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  20% { opacity: 0.6; }
+  80% { opacity: 0.6; }
+  100% { transform: translateY(-120px) rotate(20deg); opacity: 0; }
+}
+
+/* ── POETRY REVEAL MODAL BACKDROP & CARD ── */
+.poetry-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(131, 24, 67, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.poetry-modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.poetry-card-box {
+  background: linear-gradient(135deg, #ffffff 0%, #FFF0F5 50%, #FCE7F3 100%);
+  border: 3px solid #ffffff;
+  border-radius: 28px;
+  box-shadow: 
+    0 20px 50px rgba(131, 24, 67, 0.25),
+    0 0 30px rgba(244, 114, 182, 0.3);
+  width: 100%;
+  max-width: 440px;
+  padding: 2.2rem 2rem;
+  text-align: center;
+  position: relative;
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-sizing: border-box;
+}
+
+.poetry-modal-backdrop.active .poetry-card-box {
+  transform: scale(1) translateY(0);
+}
+
+.poetry-card-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(236, 72, 153, 0.3);
+  color: #B94F78;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.poetry-card-close-btn:hover {
+  background: #EC4899;
+  color: #ffffff;
+}
+
+.poetry-card-number-badge {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: #DB2777;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 0.8rem;
+  border: 1px solid rgba(244, 114, 182, 0.3);
+}
+
+.poetry-card-heart {
+  font-size: 2.2rem;
+  color: #EC4899;
+  margin-bottom: 0.5rem;
+  animation: pulse-pink 2s infinite;
+}
+
+.poetry-card-verse {
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  font-size: clamp(1.4rem, 3vh, 1.85rem);
+  line-height: 1.4;
+  color: #831843;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+  white-space: pre-line;
+}
+
+.poetry-card-footer-btn {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  background: linear-gradient(135deg, #F472B6 0%, #EC4899 100%);
+  border: none;
+  border-radius: 30px;
+  padding: 0.65rem 1.8rem;
+  box-shadow: 0 6px 18px rgba(236, 72, 153, 0.3);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+.poetry-card-footer-btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 22px rgba(236, 72, 153, 0.4);
+}
+
+.poetry-card-status-notice {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  color: #DB2777;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.75);
+  padding: 0.35rem 1.1rem;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 0.8rem;
+  border: 1px solid rgba(244, 114, 182, 0.35);
+}
+
+/* ── ENLARGED POETRY BOOKLET OVERLAY ── */
+.poetry-booklet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(83, 15, 43, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.poetry-booklet-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.poetry-booklet-journal {
+  background: linear-gradient(135deg, #FFF0F5 0%, #FCE7F3 50%, #FFF5F8 100%);
+  border: 4px solid #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 
+    0 25px 60px rgba(131, 24, 67, 0.35),
+    0 0 40px rgba(244, 114, 182, 0.35);
+  width: 100%;
+  max-width: 520px;
+  min-height: 400px;
+  padding: 2.2rem 2.2rem 1.8rem 2.2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform: scale(0.92) translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-sizing: border-box;
+}
+
+.poetry-booklet-backdrop.active .poetry-booklet-journal {
+  transform: scale(1) translateY(0);
+}
+
+.booklet-close-btn {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(236, 72, 153, 0.3);
+  color: #B94F78;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.booklet-close-btn:hover {
+  background: #EC4899;
+  color: #ffffff;
+}
+
+.booklet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed rgba(244, 114, 182, 0.4);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.2rem;
+}
+
+.booklet-title {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.15rem;
+  color: #831843;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.booklet-count-badge {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #BE185D;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.25rem 0.75rem;
+  border-radius: 14px;
+  border: 1px solid rgba(244, 114, 182, 0.35);
+}
+
+.booklet-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.booklet-poem-num {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  color: #DB2777;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.booklet-poem-text {
+  font-family: var(--font-script, 'Caveat', 'Dancing Script', cursive);
+  font-size: clamp(1.45rem, 3.2vh, 1.95rem);
+  line-height: 1.4;
+  color: #831843;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  white-space: pre-line;
+}
+
+.booklet-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px dashed rgba(244, 114, 182, 0.4);
+  padding-top: 0.75rem;
+  margin-top: 1rem;
+}
+
+.booklet-nav-btn {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 0.88rem;
+  color: #B94F78;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(244, 114, 182, 0.4);
+  border-radius: 20px;
+  padding: 0.4rem 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.booklet-nav-btn:hover:not(:disabled) {
+  background: #EC4899;
+  color: #ffffff;
+  border-color: #EC4899;
+}
+
+.booklet-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.booklet-page-indicator {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.8rem;
+  color: #9F1239;
+  font-weight: 600;
+}
+
+.booklet-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.booklet-reset-btn {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', system-ui, sans-serif);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: #BE185D;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(244, 114, 182, 0.4);
+  border-radius: 9999px;
+  padding: 0.22rem 0.65rem;
+  box-shadow: 0 2px 8px rgba(244, 114, 182, 0.12);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.booklet-reset-btn:hover {
+  background: #FFFFFF;
+  color: #9F1239;
+  border-color: rgba(236, 72, 153, 0.6);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(244, 114, 182, 0.25);
+}
+
+/* ── Reset Collection Confirmation Modal ── */
+.poetry-reset-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(131, 24, 67, 0.35);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 10050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.poetry-reset-modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.poetry-reset-card-box {
+  background: radial-gradient(circle at 50% 30%, #FFFFFF 0%, #FFF5F8 100%);
+  border: 1.5px solid rgba(244, 114, 182, 0.45);
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(236, 72, 153, 0.22), 0 0 20px rgba(244, 114, 182, 0.15);
+  padding: 2rem 1.8rem;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+  position: relative;
+  transform: scale(0.92) translateY(12px);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.poetry-reset-modal-backdrop.active .poetry-reset-card-box {
+  transform: scale(1) translateY(0);
+}
+
+.poetry-reset-heart {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 4px 8px rgba(236, 72, 153, 0.25));
+  animation: pulseHeart 2s infinite ease-in-out;
+}
+
+.poetry-reset-title {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.35rem;
+  color: #831843;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  text-transform: lowercase;
+}
+
+.poetry-reset-text {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.88rem;
+  color: #9F1239;
+  line-height: 1.5;
+  margin: 0 0 1.5rem 0;
+  text-transform: lowercase;
+  opacity: 0.9;
+}
+
+.poetry-reset-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.poetry-reset-btn-confirm {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', system-ui, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: lowercase;
+  color: #BE185D;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(244, 114, 182, 0.5);
+  border-radius: 9999px;
+  padding: 0.48rem 1.15rem;
+  box-shadow: 0 4px 12px rgba(244, 114, 182, 0.15);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.poetry-reset-btn-confirm:hover {
+  transform: translateY(-2px);
+  background: #FFFFFF;
+  color: #9F1239;
+  border-color: rgba(236, 72, 153, 0.7);
+  box-shadow: 0 6px 18px rgba(244, 114, 182, 0.28);
+}
+
+.poetry-reset-btn-cancel {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', system-ui, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: lowercase;
+  color: #ffffff;
+  background: linear-gradient(135deg, #F472B6 0%, #EC4899 100%);
+  border: 1px solid #ffffff;
+  border-radius: 9999px;
+  padding: 0.48rem 1.15rem;
+  box-shadow: 0 4px 14px rgba(236, 72, 153, 0.25);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.poetry-reset-btn-cancel:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);
+  box-shadow: 0 6px 18px rgba(236, 72, 153, 0.38);
+}
+
+/* ── Responsive Adjustments ── */
+@media (max-width: 768px) {
+  .wheel-side-note-left,
+  .wheel-side-note-right {
+    display: none;
+  }
+  .wheel-outer-container {
+    width: clamp(290px, 44vh, 380px);
+    height: clamp(290px, 44vh, 380px);
+  }
+  .wheel-spin-btn {
+    padding: 0.65rem 1.8rem;
+    font-size: 0.95rem;
+  }
+  .wheel-bottom-decor-books {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .wheel-page-header {
+    padding-top: 3.5rem;
+  }
+  .wheel-outer-container {
+    width: clamp(270px, 40vh, 320px);
+    height: clamp(270px, 40vh, 320px);
+  }
+}

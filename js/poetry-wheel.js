@@ -42,16 +42,16 @@ const romanticPoems = [
   "every version of tomorrow feels sweet\nbecause you are in it with me. 🌸",
   "your laughter is the melody\ni replay whenever the evening grows still. 💖",
   "to love you is to know that\nevery distance eventually melts away. ✦",
-  "i hold your hand in my prayers\nand count the moments until we meet. ♡",
   "you are the softest landing place\nmy heart has ever found. ✨",
   "the moon watches over both of us,\nreminding me that we share the same sky. 🌸",
   "i find a piece of home\nin every message you send. 💖",
   "your love is a quiet miracle\ni thank the universe for every day. ✦",
-  "i look forward to the day when\ndistance is just a story we used to tell. ♡",
+  "you still feel like my\nfavorite part of every day. ♡",
+  "A message from you can change the entire mood of my day\nYou’re precious to me,more than words can properly say ♡",
   "you make every ordinary second\nfeel like a golden memory. ✨",
   "my heart has chosen you,\nand it would choose you a million times over. 🌸",
   "in the vastness of everything,\nyou are my absolute favourite place to be. 💖",
-  "sweet Elie, loving you is the easiest\nand most natural thing in the world. ✦"
+  "loving you is the easiest\nand most natural thing in the world. ✦"
 ];
 
 class PoetryWheelController {
